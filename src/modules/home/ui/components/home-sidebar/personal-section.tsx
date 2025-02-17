@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client"
 
+import { useAuth, useClerk } from "@clerk/nextjs";
 import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import { FlameIcon, HistoryIcon, HomeIcon, ListVideoIcon, PlaySquareIcon, ThumbsUpIcon } from "lucide-react";
 import Link from "next/link";
@@ -30,6 +31,10 @@ const items = [
 import React from 'react'
 
 export const PersonarSection = () => {
+
+    const clark = useClerk();
+    const { isSignedIn } = useAuth();
+
     return (
         <SidebarGroup>
             <SidebarGroupLabel>You</SidebarGroupLabel>
@@ -41,7 +46,12 @@ export const PersonarSection = () => {
                                 tooltip={item.title}
                                 asChild
                                 isActive={false} /* TODO: change to look at current pathname */
-                                onClick={() => { }} /* TODO: Do something on click */
+                                onClick={(e) => {
+                                    if (!isSignedIn && item.auth) {
+                                        e.preventDefault();
+                                        return clark.openSignIn();
+                                    }
+                                }}
                             >
                                 <Link href={item.url} className="flex items-center gap-4">
                                     <item.icon />
