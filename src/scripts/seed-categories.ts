@@ -4,15 +4,25 @@ import { categories } from "@/db/schema";
 
 const categoryNames = [
     "Technology",
+    "Science",
     "Health",
-    "Sports",
     "Education",
-    "Entertainment",
-    "Business",
+    "Sports",
+    "Arts",
+    "Politics",
+    "Finance",
     "Travel",
-    "Cooking",
+    "Food",
+    "Entertainment",
+    "Lifestyle",
+    "Environment",
+    "History",
+    "Culture",
+    "Music",
+    "Literature",
     "Fashion",
-    "Science"
+    "Gaming",
+    "Automobile"
 ];
 
 async function main() {
