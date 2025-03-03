@@ -11,12 +11,13 @@ import {
 import { Badge } from "./ui/badge";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
+import { Skeleton } from "./ui/skeleton";
 
 
 interface FilterCarouselProps {
     value?: string | null;
     isLoading?: boolean;
-    onSelect?: (value: string | null) => void;
+    onSelect: (value: string | null) => void;
     data?: {
         value: string;
         label: string
@@ -64,18 +65,35 @@ export const FilterCarousel = ({
                 className="w-full px-12"
             >
                 <CarouselContent className="-ml-3">
-                    <CarouselItem className="pl-3 basis-auto">
-                        <Badge
-                            variant={value === null ? "default" : "secondary"}
-                            className="rounded-lg px-3 py-1 cursor-pointer whitespace-nowrap text-sm"
-                        >
-                            All
-                        </Badge>
-                    </CarouselItem>
-                    {data?.map((item) => (
-                        <CarouselItem key={item.value} className="pl-3 basis-auto">
+                    {!isLoading && (
+                        <CarouselItem
+                            onClick={() => onSelect(null)}
+                            className="pl-3 basis-auto">
                             <Badge
-                                variant={value === null ? "default" : "secondary"}
+                                variant={!value ? "default" : "secondary"}
+                                className="rounded-lg px-3 py-1 cursor-pointer whitespace-nowrap text-sm"
+                            >
+                                All
+                            </Badge>
+                        </CarouselItem>
+                    )}
+                    {isLoading &&
+                        Array.from({ length: 14 }).map((_, index) => (
+                            <CarouselItem key={index} className="pl-3 basis-auto">
+                                <Skeleton className="rounded-lg px-3 py-1 h-full text-sm w-[100px] font-semibold">
+                                    &nbsp;
+                                </Skeleton>
+                            </CarouselItem>
+                        ))
+                    }
+                    {!isLoading && data?.map((item) => (
+                        <CarouselItem
+                            key={item.value}
+                            className="pl-3 basis-auto"
+                            onClick={() => onSelect(item.value)}
+                        >
+                            <Badge
+                                variant={value === item.value ? "default" : "secondary"}
                                 className="rounded-lg px-3 py-1 cursor-pointer whitespace-nowrap text-sm"
                             >
                                 {item.label}
