@@ -4,12 +4,9 @@ import "./globals.css";
 import { Inter } from 'next/font/google';
 import {
   ClerkProvider,
-  SignInButton,
-  SignedIn,
-  SignedOut,
-  UserButton
 } from '@clerk/nextjs';
 import { TRPCProvider } from "@/trpc/client";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -30,6 +27,10 @@ export default function RootLayout({
           className={inter.className}
         >
           <TRPCProvider>
+            <Toaster
+              position="bottom-right"
+              reverseOrder={false}
+            />
             {children}
           </TRPCProvider>
         </body>
